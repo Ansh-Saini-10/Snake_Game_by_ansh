@@ -39,16 +39,17 @@ screen.onkeypress(fun=snake.right, key="Right")
 
 game_is_on = True
 
-while game_is_on:
+def game():
+    global game_is_on
     snake.animation()
 
     # ================================== Detecting Collision with wall ==============================
     if snake.collision_with_wall(max_x=385, min_x=-385, max_y=285, min_y=-285):
-        score.set_highscore()
         game_is_on = False
-        reset()
         score.game_over()
-        pause = True
+        score.set_highscore()
+        reset()
+        return
 
 
     # ================================== Detecting Collision with tail ==============================
@@ -56,7 +57,8 @@ while game_is_on:
         game_is_on = False
         score.game_over()
         score.set_highscore()
-        pause = True
+        reset()
+        return
 
     # ======================================= Detecting Food ========================================
     if snake.snake_head.distance(food) < 20:
@@ -68,5 +70,12 @@ while game_is_on:
 
         screen.bgcolor(change_bg_color(my_bg_colors))
         food.color(change_bg_color(my_food_colors))
+
+    return game()
+
+game()
+
+screen.onkey(fun=game, key="space")
+
 
 screen.exitonclick()
