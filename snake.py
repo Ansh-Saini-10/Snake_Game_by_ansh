@@ -10,6 +10,7 @@ class MySnake:
         self.snake_segments = []
         self.make_snake()
         self.snake_head = self.snake_segments[0]
+        self.time_between_animation = 0.1
 
     def make_snake(self):
         for coordinates in POSITIONS:
@@ -21,7 +22,7 @@ class MySnake:
 
     def animation(self):
         screen.update()
-        time.sleep(0.1)
+        time.sleep(self.time_between_animation)
 
         for i in range(len(self.snake_segments) - 1, 0, -1):
             new_x = self.snake_segments[i-1].xcor()
@@ -68,6 +69,9 @@ class MySnake:
         for snake in self.snake_segments:
             snake.hideturtle()
     
-    def pause(self):
-        for snake in self.snake_segments:
-            self.done()
+    def increase_speed_by_points(self, score):
+        if score >= 10:
+            self.time_between_animation = 0.02
+        elif score >= 5:
+            self.time_between_animation = 0.05
+        

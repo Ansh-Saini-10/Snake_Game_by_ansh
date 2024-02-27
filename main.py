@@ -39,25 +39,28 @@ screen.onkeypress(fun=snake.right, key="Right")
 
 game_is_on = True
 
+def game_init():
+    reset()
+    game()
+
 def game():
     global game_is_on
     snake.animation()
+    snake.increase_speed_by_points(score.score)
 
     # ================================== Detecting Collision with wall ==============================
     if snake.collision_with_wall(max_x=385, min_x=-385, max_y=285, min_y=-285):
         game_is_on = False
         score.game_over()
         score.set_highscore()
-        reset()
+        
         return
-
 
     # ================================== Detecting Collision with tail ==============================
     if snake.collision_with_tail():
         game_is_on = False
         score.game_over()
         score.set_highscore()
-        reset()
         return
 
     # ======================================= Detecting Food ========================================
@@ -75,7 +78,7 @@ def game():
 
 game()
 
-screen.onkey(fun=game, key="space")
+screen.onkey(fun=game_init, key="space")
 
 
 screen.exitonclick()
