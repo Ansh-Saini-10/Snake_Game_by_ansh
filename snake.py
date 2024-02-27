@@ -56,9 +56,13 @@ class MySnake:
         self.snake_segments.append(new_segment)
 
     def collision_with_tail(self):
-        for snake_segment in self.snake_segments[1:]:
-            if self.snake_segments[0].distance(snake_segment) < 10:
+        for snake_segment in self.snake_segments[2:]:
+            if self.snake_head.distance(snake_segment) < 10:
                 return True
+
+    def collision_with_wall(self, min_x, max_x, min_y, max_y):
+        return self.snake_head.xcor() >= max_x or self.snake_head.xcor() <= min_x or self.snake_head.ycor() >= max_y or self.snake_head.ycor() <= min_y
+            
 
     def clear_snake(self):
         for snake in self.snake_segments:

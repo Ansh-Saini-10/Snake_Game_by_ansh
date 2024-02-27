@@ -43,15 +43,7 @@ while game_is_on:
     snake.animation()
 
     # ================================== Detecting Collision with wall ==============================
-    if snake.snake_head.xcor() >= 375 or snake.snake_head.xcor() < -380:
-        score.set_highscore()
-        game_is_on = False
-        reset()
-
-        score.game_over()
-        pause = True
-
-    elif snake.snake_head.ycor() >= 275 or snake.snake_head.ycor() < -280:
+    if snake.collision_with_wall(max_x=385, min_x=-385, max_y=285, min_y=-285):
         score.set_highscore()
         game_is_on = False
         reset()
@@ -64,7 +56,6 @@ while game_is_on:
         game_is_on = False
         score.game_over()
         score.set_highscore()
-
         pause = True
 
     # ======================================= Detecting Food ========================================
