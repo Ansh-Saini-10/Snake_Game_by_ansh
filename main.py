@@ -1,11 +1,10 @@
-from turtle import Screen, ontimer
+from turtle import Screen
 from snake import MySnake
 from food import Food
 from score import Scoreboard
 import random
-import time
 
-my_bg_colors = ["#000", "#337357", "#FF3EA5", "#1D2B53", "#900C3F", "#FAA300"]
+my_bg_colors = ["#000", "#337357", "#FF3EA5", "#1D2B53", "#900C3F", "#FAA300", "#2e4242"]
 my_food_colors = ["#FF004D", "#6420AA"]
 
 def change_bg_color(colors: list) -> str: 
@@ -16,6 +15,7 @@ def change_bg_color(colors: list) -> str:
 screen = Screen()
 screen.setup(width=800, height=600)
 screen.bgcolor(change_bg_color(my_bg_colors))
+screen.title("Snake Game by Ansh")
 
 snake = MySnake()
 food = Food()
@@ -37,28 +37,23 @@ screen.onkeypress(fun=snake.left, key="Left")
 screen.onkeypress(fun=snake.right, key="Right")
 
 
-game_is_on = True
-
-def game_init():
+def restart_game():
     reset()
     game()
 
 def game():
-    global game_is_on
     snake.animation()
     snake.increase_speed_by_points(score.score)
 
     # ================================== Detecting Collision with wall ==============================
     if snake.collision_with_wall(max_x=385, min_x=-385, max_y=285, min_y=-285):
-        game_is_on = False
         score.game_over()
         score.set_highscore()
-        
+
         return
 
     # ================================== Detecting Collision with tail ==============================
     if snake.collision_with_tail():
-        game_is_on = False
         score.game_over()
         score.set_highscore()
         return
@@ -76,9 +71,10 @@ def game():
 
     return game()
 
+
 game()
 
-screen.onkey(fun=game_init, key="space")
+screen.onkey(fun=restart_game, key="space")
 
 
 screen.exitonclick()
